@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float timeLeft;
     public int timeRemaining;
     public Text TimerText;
+    public ParticleSystem Appear;
 
     private float Score;
     private float TimerValue;
@@ -33,12 +34,12 @@ public class Player : MonoBehaviour
         {
             if (timeLeft <= TimerValue)
             {
-                SceneManager.LoadScene("win");
+                SceneManager.LoadScene("Win");
             }
         }
         else if (timeLeft <= 0)
         {
-            SceneManager.LoadScene("lose");
+            SceneManager.LoadScene("Lose");
         }
 
 
@@ -47,15 +48,20 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("collide");
-        if (collision.gameObject.tag == "environment")
-        {
-            SceneManager.LoadScene("lose");
-        }
         if (collision.gameObject.tag == "Coin")
         {
             //Debug.Log("coin");
+
             Destroy(collision.gameObject);
+            Appear.Play();
             Score += 10;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Fire") ;
+        {
+            SceneManager.LoadScene("Lose");
         }
     }
 }
